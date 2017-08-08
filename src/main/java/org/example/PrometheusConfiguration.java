@@ -15,10 +15,8 @@ class PrometheusConfiguration {
 
     @Bean
     SpringBootMetricsCollector springBootMetricsCollector(Collection<PublicMetrics> publicMetrics) {
-
         SpringBootMetricsCollector springBootMetricsCollector = new SpringBootMetricsCollector(publicMetrics);
         springBootMetricsCollector.register();
-
         return springBootMetricsCollector;
     }
 
