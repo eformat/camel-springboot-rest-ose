@@ -12,5 +12,7 @@ spec:
               cpu: "1.0"
               memory: 256Mi
           env:
-          - name: GREETING
-            value: "Env Variable Hi"
+            - name: JAEGER_SERVICE_NAME
+              value: helloservice
+            - name: JAEGER_ENDPOINT
+              value: http://my-jaeger-collector.observability.svc.cluster.local:14268/api/traces

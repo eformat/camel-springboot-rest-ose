@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
 
@@ -14,32 +14,31 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>1.5.6.RELEASE</version>
-        <relativePath/> <!-- lookup parent from repository -->
+        <version>1.5.16.RELEASE</version>
+        <relativePath/>
     </parent>
 
     <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <fabric8.version>2.2.210</fabric8.version>
-        <spring-boot.version>1.5.6.RELEASE</spring-boot.version>
-        <spring-cloud-kubernetes.version>0.1.6</spring-cloud-kubernetes.version>
-        <fabric8.maven.plugin.version>3.3.5</fabric8.maven.plugin.version>
-        <maven-compiler-plugin.version>3.6.2</maven-compiler-plugin.version>
-        <maven-surefire-plugin.version>2.20</maven-surefire-plugin.version>
-        <springfox.version>2.6.1</springfox.version>
-        <swagger.version>1.5.16</swagger.version>
+        <fuse.version>7.2.0.fuse-720020-redhat-00001</fuse.version>
+        <fabric8.version>3.0.11.fuse-720027-redhat-00001</fabric8.version>
+        <spring-boot.version>1.5.16.RELEASE</spring-boot.version>
+        <fabric8.maven.plugin.version>3.5.33.fuse-720026-redhat-00001</fabric8.maven.plugin.version>
+        <maven-compiler-plugin.version>3.3</maven-compiler-plugin.version>
+        <maven-surefire-plugin.version>2.18.1</maven-surefire-plugin.version>
+        <openshift.istag>openshift/fuse7-java-openshift:1.2</openshift.istag>
+        <springfox.version>2.7.0</springfox.version>
         <fabric8.metrics.scrape>true</fabric8.metrics.scrape>
         <fabric8.metrics.port>8080</fabric8.metrics.port>
         <fabric8.metrics.scheme>http</fabric8.metrics.scheme>
         <fabric8.metrics.path>/prometheus</fabric8.metrics.path>
         <fabric8.service.name>${project.artifactId}</fabric8.service.name>
-        <prometheus.version>0.0.21</prometheus.version>
+        <prometheus.version>0.6.0</prometheus.version>
         <fabric8.service.headless>true</fabric8.service.headless>
-        <jaeger.version>0.20.6</jaeger.version>
-        <opentracing-spring-web-autoconfigure>0.0.7</opentracing-spring-web-autoconfigure>
+        <jaeger.version>0.34.0</jaeger.version>
+        <openshift.istag>openshift/fuse7-java-openshift:1.2</openshift.istag>
     </properties>
 
     <dependencyManagement>
@@ -90,6 +89,10 @@
             <artifactId>camel-swagger-java-starter</artifactId>
         </dependency>
         <dependency>
+            <groupId>org.apache.camel</groupId>
+            <artifactId>camel-http4</artifactId>
+        </dependency>
+        <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-webmvc</artifactId>
         </dependency>
@@ -111,13 +114,7 @@
             <artifactId>cdi-api</artifactId>
         </dependency>
 
-        <!-- Swagger -->
-        <dependency>
-            <groupId>io.swagger</groupId>
-            <artifactId>swagger-jaxrs</artifactId>
-            <version>${swagger.version}</version>
-        </dependency>
-
+        <!-- swagger -->
         <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger2</artifactId>
@@ -150,14 +147,25 @@
         </dependency>
 
         <dependency>
-            <groupId>io.opentracing.contrib</groupId>
-            <artifactId>opentracing-spring-web-autoconfigure</artifactId>
-            <version>${opentracing-spring-web-autoconfigure}</version>
+            <groupId>org.apache.camel</groupId>
+            <artifactId>camel-metrics</artifactId>
+        </dependency>
+
+        <!-- tracing -->
+        <dependency>
+            <groupId>io.jaegertracing</groupId>
+            <artifactId>jaeger-core</artifactId>
+            <version>${jaeger.version}</version>
         </dependency>
 
         <dependency>
-            <groupId>com.uber.jaeger</groupId>
-            <artifactId>jaeger-core</artifactId>
+            <groupId>org.apache.camel</groupId>
+            <artifactId>camel-opentracing-starter</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>io.jaegertracing</groupId>
+            <artifactId>jaeger-client</artifactId>
             <version>${jaeger.version}</version>
         </dependency>
 
@@ -240,6 +248,16 @@
                         </goals>
                     </execution>
                 </executions>
+                <configuration>
+                    <generator>
+                        <config>
+                            <spring-boot>
+                                <fromMode>istag</fromMode>
+                                <from>${openshift.istag}</from>
+                            </spring-boot>
+                        </config>
+                    </generator>
+                </configuration>
             </plugin>
 
         </plugins>

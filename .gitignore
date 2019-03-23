@@ -5,3 +5,6 @@ out/
 .settings
 settings.json
 javac-services.*
+.vscode/
+.factorypath
+.classpath
