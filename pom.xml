@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" 
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
 
@@ -28,13 +29,12 @@
         <fabric8.maven.plugin.version>3.5.33.fuse-720026-redhat-00001</fabric8.maven.plugin.version>
         <maven-compiler-plugin.version>3.3</maven-compiler-plugin.version>
         <maven-surefire-plugin.version>2.18.1</maven-surefire-plugin.version>
-        <openshift.istag>openshift/fuse7-java-openshift:1.2</openshift.istag>
         <springfox.version>2.7.0</springfox.version>
-        <fabric8.metrics.scrape>true</fabric8.metrics.scrape>
-        <fabric8.metrics.port>8080</fabric8.metrics.port>
+        <!--fabric8.metrics.scrape>true</fabric8.metrics.scrape>
+        <fabric8.metrics.port>8081</fabric8.metrics.port>
         <fabric8.metrics.scheme>http</fabric8.metrics.scheme>
         <fabric8.metrics.path>/prometheus</fabric8.metrics.path>
-        <fabric8.service.name>${project.artifactId}</fabric8.service.name>
+        <fabric8.service.name>${project.artifactId}</fabric8.service.name-->
         <prometheus.version>0.6.0</prometheus.version>
         <fabric8.service.headless>true</fabric8.service.headless>
         <jaeger.version>0.34.0</jaeger.version>
@@ -210,6 +210,33 @@
                     <target>1.8</target>
                 </configuration>
             </plugin>
+
+            <!--plugin>
+                <artifactId>maven-resources-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>copy-resources</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>
+                                ${project.build.directory}/docker/${project.artifactId}/latest/build/maven/
+                            </outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>src/main/resources</directory>
+                                    <includes>
+                                        <include>prom-config.yml</include>
+                                    </includes>
+                                    <filtering>false</filtering>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin -->
 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
